@@ -208,6 +208,7 @@ echo "git commit -m \"origin configures\""
 git --git-dir=/etc/voicecard/.git --work-tree=/etc/voicecard/ commit  -m "origin configures"
 
 cp seeed-voicecard /usr/bin/
+chmod 755 /usr/bin/seeed-voicecard
 cp seeed-voicecard.service /lib/systemd/system/
 systemctl enable  seeed-voicecard.service 
 systemctl start   seeed-voicecard
