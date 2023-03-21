@@ -86,33 +86,16 @@ do_overlay() {
     fi
 }
 
-
-is_1a=$(i2cdetect -y  1 0x1a 0x1a | egrep "(1a|UU)" | awk '{print $2}')
-is_35=$(i2cdetect -y  1 0x35 0x35 | egrep "(35|UU)" | awk '{print $2}')
 is_3b=$(i2cdetect -y  1 0x3b 0x3b | egrep "(3b|UU)" | awk '{print $2}')
 
 RPI_HATS="seeed-2mic-voicecard seeed-4mic-voicecard seeed-8mic-voicecard"
 overlay=""
 
-if [ "x${is_1a}" != "x" ] && [ "x${is_35}" == "x" ] ; then
-    echo "install 2mic"
-    overlay=seeed-2mic-voicecard
-    asound_conf=/etc/voicecard/asound_2mic.conf
-    asound_state=/etc/voicecard/wm8960_asound.state
-fi
-
-if [ "x${is_3b}" != "x" ] && [ "x${is_35}" == "x" ] ; then
+if [ "x${is_3b}" != "x" ] ; then
     echo "install 4mic"
     overlay=seeed-4mic-voicecard
     asound_conf=/etc/voicecard/asound_4mic.conf
     asound_state=/etc/voicecard/ac108_asound.state
-fi
-
-if [ "x${is_3b}" != "x" ] && [ "x${is_35}" != "x" ] ; then
-    echo "install 6mic"
-    overlay=seeed-8mic-voicecard
-    asound_conf=/etc/voicecard/asound_6mic.conf
-    asound_state=/etc/voicecard/ac108_6mic.state
 fi
 
 if [ "$overlay" ]; then

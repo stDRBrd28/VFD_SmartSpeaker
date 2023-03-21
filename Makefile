@@ -12,12 +12,9 @@ uname_r=$(shell uname -r)
 ifneq ($(KERNELRELEASE),)
 # $(warning KERNELVERSION=$(KERNELVERSION))
 
-snd-soc-wm8960-objs := wm8960.o
 snd-soc-ac108-objs := ac108.o pcm5102a.o
 snd-soc-seeed-voicecard-objs := seeed-voicecard.o
 
-
-obj-m += snd-soc-wm8960.o
 obj-m += snd-soc-ac108.o
 obj-m += snd-soc-seeed-voicecard.o
 
@@ -41,7 +38,6 @@ clean:
 
 install:
 	sudo cp snd-soc-ac108.ko ${DEST}/sound/soc/codecs/
-	sudo cp snd-soc-wm8960.ko ${DEST}/sound/soc/codecs/
 	sudo cp snd-soc-seeed-voicecard.ko ${DEST}/sound/soc/bcm/
 	sudo depmod -a
 
