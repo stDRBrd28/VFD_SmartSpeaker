@@ -21,10 +21,10 @@
 #ifndef __AC10X_H__
 #define __AC10X_H__
 
-#define AC101_I2C_ID		4
+#define _USE_CAPTURE	1
 #define _MASTER_AC108		0
-#define _MASTER_AC101		1
-#define _MASTER_MULTI_CODEC	_MASTER_AC101
+#define _MASTER_MULTI_CODEC	_MASTER_AC108
+#define _MASTER_INDEX       _MASTER_AC108
 
 /* enable headset detecting & headset button pressing */
 #define CONFIG_AC101_SWITCH_DETECT
@@ -33,10 +33,10 @@
 #define CONFIG_AC10X_TRIG_LOCK	0
 
 
-#ifdef AC101_DEBG
-    #define AC101_DBG(format,args...)  printk("[AC101] %s() L%d " format, __func__, __LINE__, ##args)
+#ifdef PCM5102A_DEBG
+    #define PCM5102A_DBG(format,args...)  printk("[PCM5102A] %s() L%d " format, __func__, __LINE__, ##args)
 #else
-    #define AC101_DBG(...)
+    #define PCM5102A_DBG(...)
 #endif
 
 
@@ -61,62 +61,53 @@ struct ac10x_priv {
 	int clk_id;
 	unsigned char i2s_mode;
 	unsigned char data_protocol;
-	struct delayed_work dlywork;
+	// struct delayed_work dlywork;
 	int tdm_chips_cnt;
 	int sysclk_en;
-
-	/* member for ac101 .begin */
-	struct snd_soc_codec *codec;
-	struct i2c_client *i2c101;
-	struct regmap* regmap101;
-
-	struct mutex dac_mutex;
-	u8 dac_enable;
+	int dac_enable;
 	spinlock_t lock;
-	u8 aif1_clken;
+
+	/* member for DAC .begin */
+	struct snd_soc_codec *codec;
 
 	struct work_struct codec_resume;
-	struct gpio_desc* gpiod_spk_amp_gate;
 
-	#ifdef CONFIG_AC101_SWITCH_DETECT
-	struct gpio_desc* gpiod_irq;
-	long irq;
-	volatile int irq_cntr;
-	volatile int pullout_cntr;
-	volatile int state;
-
-	enum headphone_mode_u mode;
-	struct work_struct work_switch;
-	struct work_struct work_clear_irq;
-
-	struct input_dev* inpdev;
-	#endif
-	/* member for ac101 .end */
+	// struct input_dev* inpdev;
+	/* member for DAC .end */
 };
 
 
 /* AC101 DAI operations */
-int ac101_audio_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *codec_dai);
-void ac101_aif_shutdown(struct snd_pcm_substream *substream, struct snd_soc_dai *codec_dai);
-int ac101_set_dai_fmt(struct snd_soc_dai *codec_dai, unsigned int fmt);
-int ac101_hw_params(struct snd_pcm_substream *substream,
+int pcm5102a_audio_startup(struct snd_pcm_substream *substream, struct snd_soc_dai *codec_dai);
+void pcm5102a_aif_shutdown(struct snd_pcm_substream *substream, struct snd_soc_dai *codec_dai);
+int pcm5102a_set_dai_fmt(struct snd_soc_dai *codec_dai, unsigned int fmt);
+int pcm5102a_hw_params(struct snd_pcm_substream *substream,
 	struct snd_pcm_hw_params *params,
 	struct snd_soc_dai *codec_dai);
-int ac101_trigger(struct snd_pcm_substream *substream, int cmd,
+int pcm5102a_trigger(struct snd_pcm_substream *substream, int cmd,
 	 	  struct snd_soc_dai *dai);
-int ac101_aif_mute(struct snd_soc_dai *codec_dai, int mute);
+int pcm5102a_aif_mute(struct snd_soc_dai *codec_dai, int mute);
+
+int ac108_multi_write(u8 reg, u8 val, struct ac10x_priv *ac10x);
+int ac108_multi_update_bits(u8 reg, u8 mask, u8 val, struct ac10x_priv *ac10x);
+int ac10x_read(u8 reg, u8* rt_val, struct regmap* i2cm);
+int ac10x_write(u8 reg, u8 val, struct regmap* i2cm);
+int ac10x_update_bits(u8 reg, u8 mask, u8 val, struct regmap* i2cm);
+int ac108_config_pll(struct ac10x_priv *ac10x, unsigned rate, unsigned lrck_ratio);
+int ac108_i2c_probe(struct i2c_client *i2c, const struct i2c_device_id *i2c_id);
+void ac108_configure_power(struct ac10x_priv *ac10x);
 
 /* codec driver specific */
-int ac101_codec_probe(struct snd_soc_codec *codec);
-int ac101_codec_remove(struct snd_soc_codec *codec);
-int ac101_codec_suspend(struct snd_soc_codec *codec);
-int ac101_codec_resume(struct snd_soc_codec *codec);
-int ac101_set_bias_level(struct snd_soc_codec *codec, enum snd_soc_bias_level level);
+int pcm5102a_codec_probe(struct snd_soc_codec *codec);
+int pcm5102a_codec_remove(struct snd_soc_codec *codec);
+int pcm5102a_codec_suspend(struct snd_soc_codec *codec);
+int pcm5102a_codec_resume(struct snd_soc_codec *codec);
+int pcm5102a_set_bias_level(struct snd_soc_codec *codec, enum snd_soc_bias_level level);
 
 /* i2c device specific */
-int ac101_probe(struct i2c_client *i2c, const struct i2c_device_id *id);
-void ac101_shutdown(struct i2c_client *i2c);
-int ac101_remove(struct i2c_client *i2c);
+int pcm5102a_probe(struct i2c_client *i2c, const struct i2c_device_id *id);
+void pcm5102a_shutdown(struct i2c_client *i2c);
+int pcm5102a_remove(struct i2c_client *i2c);
 
 /* seeed voice card export */
 int seeed_voice_card_register_set_clock(int stream, int (*set_clock)(int, struct snd_pcm_substream *, int, struct snd_soc_dai *));

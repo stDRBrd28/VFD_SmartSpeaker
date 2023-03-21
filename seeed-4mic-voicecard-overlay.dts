@@ -51,7 +51,7 @@
 		
 			seeed-voice-card,bitclock-master = <&codec_dai>;
 			seeed-voice-card,frame-master = <&codec_dai>;
-			seeed-voice-card,channels-playback-override = <4>;
+			seeed-voice-card,channels-playback-override = <2>;
 			seeed-voice-card,channels-capture-override  = <4>;
 
 			cpu_dai: seeed-voice-card,cpu {
