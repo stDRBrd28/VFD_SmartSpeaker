@@ -45,7 +45,7 @@
 
 		sound_overlay: __overlay__ {
 			compatible = "seeed-voicecard";
-			seeed-voice-card,format = "dsp_a";
+			seeed-voice-card,format = "dsp_b";
 			seeed-voice-card,name = "seeed-4mic-voicecard"; 
 			status = "okay";
 		

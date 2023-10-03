@@ -158,7 +158,7 @@ install_module "./" "seeed-voicecard"
 
 
 # install dtbos
-cp seeed-2mic-voicecard.dtbo $OVERLAYS
+# cp seeed-2mic-voicecard.dtbo $OVERLAYS
 cp seeed-4mic-voicecard.dtbo $OVERLAYS
 cp seeed-8mic-voicecard.dtbo $OVERLAYS
 
