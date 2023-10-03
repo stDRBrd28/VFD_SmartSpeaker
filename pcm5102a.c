@@ -557,7 +557,7 @@ int pcm5102a_set_dai_fmt(struct snd_soc_dai *dai, unsigned int fmt)
 int pcm5102a_audio_startup(struct snd_pcm_substream *substream,
 	struct snd_soc_dai *codec_dai)
 {
-	// struct snd_soc_codec *codec = codec_dai->codec;
+	struct snd_soc_codec *codec = codec_dai->codec;
 
 	PCM5102A_DBG("\n\n\n");
 
@@ -569,8 +569,8 @@ int pcm5102a_audio_startup(struct snd_pcm_substream *substream,
 int pcm5102a_trigger(struct snd_pcm_substream *substream, int cmd,
 	 	  struct snd_soc_dai *dai)
 {
-	//struct snd_soc_codec *codec = dai->codec;
-	//struct ac10x_priv *ac10x = snd_soc_codec_get_drvdata(codec);
+	struct snd_soc_codec *codec = dai->codec;
+	struct ac10x_priv *ac10x = snd_soc_codec_get_drvdata(codec);
 	int ret = 0;
 
 	PCM5102A_DBG("stream=%s  cmd=%d\n",
@@ -597,8 +597,8 @@ int pcm5102a_trigger(struct snd_pcm_substream *substream, int cmd,
 
 static void codec_resume_work(struct work_struct *work)
 {
-	//struct ac10x_priv *ac10x = container_of(work, struct ac10x_priv, codec_resume);
-	//struct snd_soc_codec *codec = ac10x->codec;
+	struct ac10x_priv *ac10x = container_of(work, struct ac10x_priv, codec_resume);
+	struct snd_soc_codec *codec = ac10x->codec;
 
 	PCM5102A_DBG("+++\n");
 	PCM5102A_DBG("---\n");
