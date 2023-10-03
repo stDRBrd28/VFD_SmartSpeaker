@@ -1089,26 +1089,26 @@ static const struct snd_soc_dai_ops ac108_dai_ops = {
 	.no_capture_mute = 1,
 };
 
-// static  struct snd_soc_dai_driver ac108_dai0 = {
-// 	.name = "ac10x-codec0",
-// 	#if _USE_CAPTURE
-// 	.playback = {
-// 		.stream_name = "Playback",
-// 		.channels_min = 1,
-// 		.channels_max = AC108_CHANNELS_MAX,
-// 		.rates = AC108_RATES,
-// 		.formats = AC108_FORMATS,
-// 	},
-// 	#endif
-// 	.capture = {
-// 		.stream_name = "Capture",
-// 		.channels_min = 1,
-// 		.channels_max = AC108_CHANNELS_MAX,
-// 		.rates = AC108_RATES,
-// 		.formats = AC108_FORMATS,
-// 	},
-// 	.ops = &ac108_dai_ops,
-// };
+static  struct snd_soc_dai_driver ac108_dai0 = {
+	.name = "ac10x-codec0",
+	#if _USE_CAPTURE
+	.playback = {
+		.stream_name = "Playback",
+		.channels_min = 1,
+		.channels_max = AC108_CHANNELS_MAX,
+		.rates = AC108_RATES,
+		.formats = AC108_FORMATS,
+	},
+	#endif
+	.capture = {
+		.stream_name = "Capture",
+		.channels_min = 1,
+		.channels_max = AC108_CHANNELS_MAX,
+		.rates = AC108_RATES,
+		.formats = AC108_FORMATS,
+	},
+	.ops = &ac108_dai_ops,
+};
 
 int ac108_add_widgets(struct snd_soc_codec *codec) {
 	//struct ac10x_priv *ac10x = snd_soc_codec_get_drvdata(codec);
