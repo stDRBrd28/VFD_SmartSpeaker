@@ -172,8 +172,10 @@ grep -q "^snd-soc-seeed-voicecard$" /etc/modules || \
   echo "snd-soc-seeed-voicecard" >> /etc/modules
 grep -q "^snd-soc-ac108$" /etc/modules || \
   echo "snd-soc-ac108" >> /etc/modules
-grep -q "^snd-soc-wm8960$" /etc/modules || \
-  echo "snd-soc-wm8960" >> /etc/modules  
+# grep -q "^snd-soc-wm8960$" /etc/modules || \
+#   echo "snd-soc-wm8960" >> /etc/modules  
+grep -q "^snd-soc-pcm5102a$" /etc/modules || \
+  echo "snd-soc-pcm5102a" >> /etc/modules  
 
 #set dtoverlays
 CONFIG=/boot/config.txt
