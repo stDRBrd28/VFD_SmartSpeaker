@@ -1042,8 +1042,8 @@ int ac108_trigger(struct snd_pcm_substream *substream, int cmd,
 int ac108_audio_startup(struct snd_pcm_substream *substream,
 	struct snd_soc_dai *dai
 ) {
-	//struct snd_soc_codec *codec = dai->codec;
-	//struct ac10x_priv *ac10x = snd_soc_codec_get_drvdata(codec);
+	struct snd_soc_codec *codec = dai->codec;
+	struct ac10x_priv *ac10x = snd_soc_codec_get_drvdata(codec);
 
 	return 0;
 }
@@ -1206,20 +1206,20 @@ int ac108_codec_resume(struct snd_soc_codec *codec) {
 	return 0;
 }
 
-// static struct snd_soc_codec_driver ac10x_soc_codec_driver = {
-// 	.probe 		= ac108_codec_probe,
-// 	.remove 	= ac108_codec_remove,
-// 	.suspend 	= ac108_codec_suspend,
-// 	.resume 	= ac108_codec_resume,
-// 	.set_bias_level = ac108_set_bias_level,
-// 	.read		= ac108_codec_read,
-// 	.write		= ac108_codec_write,
-// #if LINUX_VERSION_CODE >= KERNEL_VERSION(4,17,0)
-// 	.idle_bias_on 	= 1,
-// 	.use_pmdown_time 	= 1,
-// 	.endianness 	= 1,
-// #endif
-// };
+static struct snd_soc_codec_driver ac10x_soc_codec_driver = {
+	.probe 		= ac108_codec_probe,
+	.remove 	= ac108_codec_remove,
+	.suspend 	= ac108_codec_suspend,
+	.resume 	= ac108_codec_resume,
+	.set_bias_level = ac108_set_bias_level,
+	.read		= ac108_codec_read,
+	.write		= ac108_codec_write,
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(4,17,0)
+	.idle_bias_on 	= 1,
+	.use_pmdown_time 	= 1,
+	.endianness 	= 1,
+#endif
+};
 
 static ssize_t ac108_store(struct device *dev, struct device_attribute *attr, const char *buf, size_t count) {
 	int val = 0, flag = 0;
